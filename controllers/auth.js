@@ -1,4 +1,5 @@
 import Auth from "../models/auth.js";
+import bcrypt from "bcrypt";
 
 const signup = async (req, res) => {
   try {
@@ -8,7 +9,11 @@ const signup = async (req, res) => {
     if (user) {
       res.json({ success: false, message: "User already exists" });
     } else {
-      await Auth.create({ name, email, password });
+      bcrypt.hash(password, 10, async (err, encrypted) => {
+        if (err) console.log(err);
+
+        await Auth.create({ name, email, password: encrypted });
+      });
       res.json({ success: true });
     }
   } catch (e) {
