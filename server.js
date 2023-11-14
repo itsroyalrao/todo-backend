@@ -9,5 +9,5 @@ const port = 3000;
 
 app.get("/", (req, res) => res.json({ msg: "Mahadev" }));
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI).catch((err) => console.log(err));
 app.listen(port, () => console.log(`Server listening on port ${port}`));
