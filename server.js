@@ -11,7 +11,7 @@ app.get("/", (req, res) => res.json({ msg: "Mahadev" }));
 (async () => {
   await mongoose
     .connect(
-      "mongodb+srv://mohit:hPjYrJmEmFQ2HN9@nodeexpressprojects.t2ll3pf.mongodb.net/?retryWrites=true&w=majority"
+      "mongodb+srv://mohit:hPjYrJmEmFQ2HN9@nodeexpressprojects.t2ll3pf.mongodb.net/render?retryWrites=true&w=majority"
     )
     .then(() => console.log("Connected to database..."))
     .catch((err) => console.log(err));
