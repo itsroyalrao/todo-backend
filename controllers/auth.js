@@ -1,4 +1,4 @@
-const Auth = require("../models/auth");
+import Auth from "../models/auth.js";
 
 const signup = async (req, res) => {
   try {
@@ -6,7 +6,7 @@ const signup = async (req, res) => {
 
     const user = await Auth.findOne({ email: email });
     if (user) {
-      res.json({ success: false, msg: "User already exists" });
+      res.json({ success: false, message: "User already exists" });
     } else {
       await Auth.create({ name, email, password });
       res.json({ success: true });
@@ -16,4 +16,4 @@ const signup = async (req, res) => {
   }
 };
 
-module.exports = { signup };
+export { signup };

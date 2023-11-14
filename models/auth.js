@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const authSchema = new mongoose.Schema({
   name: {
@@ -16,4 +16,4 @@ const authSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("auth", authSchema);
+export default mongoose.model("auth", authSchema);
