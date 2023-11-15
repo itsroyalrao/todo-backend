@@ -1,5 +1,5 @@
-import Auth from "../models/auth.js";
 import bcrypt from "bcrypt";
+import Auth from "../models/auth.js";
 
 const signup = async (req, res) => {
   try {
@@ -27,10 +27,12 @@ const login = async (req, res) => {
 
     const user = await Auth.findOne({ email: email });
     if (user) {
-      bcrypt.compare(password, user.password, (err, same) => {
+      bcrypt.compare(password, user.password, async (err, same) => {
         if (err) console.log(err);
-        else if (same) return res.json({ success: true });
-        else
+        else if (same) {
+          await Auth.findOneAndUpdate({ email: email }, { loggedIn: true });
+          return res.json({ success: true });
+        } else
           return res.json({
             success: false,
             message: "Password is incorrect!",
@@ -46,4 +48,26 @@ const login = async (req, res) => {
   }
 };
 
-export { signup, login };
+const logout = async (req, res) => {
+  try {
+    const { email } = req.body;
+    await Auth.findOneAndUpdate({ email: email }, { loggedIn: false });
+
+    return res.json({ success: true });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const status = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await Auth.findOne({ email });
+
+    return res.json({ success: true, logStatus: user.loggedIn });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export { signup, login, logout, status };
