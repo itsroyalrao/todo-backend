@@ -63,6 +63,7 @@ const status = async (req, res) => {
   try {
     const { email } = req.body;
     const user = await Auth.findOne({ email });
+    console.log(user);
 
     return res.json({ success: true, logStatus: user.loggedIn });
   } catch (e) {
