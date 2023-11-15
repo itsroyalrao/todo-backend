@@ -63,9 +63,8 @@ const status = async (req, res) => {
   try {
     const { email } = req.body;
     const user = await Auth.findOne({ email });
-    console.log(user);
-
-    return res.json({ success: true, logStatus: user.loggedIn });
+    if (user) return res.json({ success: true, logStatus: user.loggedIn });
+    else return res.json({ success: true, logStatus: false });
   } catch (e) {
     console.log(e);
   }
