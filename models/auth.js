@@ -14,6 +14,10 @@ const authSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  loggedIn: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default mongoose.model("auth", authSchema);
