@@ -2,8 +2,8 @@ import Todo from "../models/todo.js";
 
 const postTodo = async (req, res) => {
   try {
-    const { inputValue } = req.body;
-    const todo = await Todo.create({ content: inputValue });
+    const { inputValue, email } = req.body;
+    await Todo.create({ email: email, content: inputValue });
     return res.json({ success: true });
   } catch (e) {
     console.log(e.message);
@@ -21,7 +21,9 @@ const updateTodo = async (req, res) => {
 
 const getTodos = async (req, res) => {
   try {
-    const todo = await Todo.find({});
+    const { email } = req.query;
+
+    const todo = await Todo.find({ email: email });
 
     if (todo.length) {
       return res.json({ success: true, data: todo });
