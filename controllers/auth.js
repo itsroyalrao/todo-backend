@@ -73,29 +73,34 @@ const status = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   const { email } = req.body;
+  const user = await Auth.findOne({ email: email });
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "my701319@gmail.com",
-      pass: process.env.GMAIL_PASS,
-    },
-  });
+  if (user) {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "my701319@gmail.com",
+        pass: process.env.GMAIL_PASS,
+      },
+    });
 
-  let message = {
-    from: "my701319@gmail.com",
-    to: email,
-    subject: "Reset Password Link",
-    html: `<h4>Click <a href="https://todo-v0.netlify.app/changePassword?email=${email}">Here</a> to change your password.</h4>`,
-  };
+    let message = {
+      from: "my701319@gmail.com",
+      to: email,
+      subject: "Reset Password Link",
+      html: `<h4>Click <a href="https://todo-v0.netlify.app/changePassword?email=${email}">Here</a> to change your password.</h4>`,
+    };
 
-  try {
-    const info = await transporter.sendMail(message);
-    if (info.accepted.length)
-      return res.json({ success: true, msg: "Email is sent!" });
-  } catch (e) {
-    console.log(e);
-    return res.json({ success: false, msg: "Error occured!" });
+    try {
+      const info = await transporter.sendMail(message);
+      if (info.accepted.length)
+        return res.json({ success: true, msg: "Email is sent!" });
+    } catch (e) {
+      console.log(e);
+      return res.json({ success: false, msg: "Error occured!" });
+    }
+  } else {
+    return res.json({ success: false, msg: "User doesn't exists" });
   }
 };
 
