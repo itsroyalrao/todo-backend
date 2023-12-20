@@ -11,8 +11,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*",
-    methods: "*",
+    origin: ["http://localhost:5173", "https://todo-v0.netlify.app"],
+    methods: ["*"],
   })
 );
 app.use(express.json());
